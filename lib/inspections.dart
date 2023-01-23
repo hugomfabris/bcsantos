@@ -3,6 +3,7 @@ class Inspection {
   String? inspector;
   String? inspectionType;
   String? inspectionDate;
+  int? anotacoes;
   String? arquivo;
 
   Inspection({
@@ -10,6 +11,7 @@ class Inspection {
     this.inspector,
     this.inspectionType,
     this.inspectionDate,
+    this.anotacoes,
     this.arquivo,
   });
 }
