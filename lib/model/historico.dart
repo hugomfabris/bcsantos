@@ -1,7 +1,7 @@
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-part 'transaction.g.dart';
+part 'historico.g.dart';
 
 @HiveType(typeId: 0)
 class History extends HiveObject{
