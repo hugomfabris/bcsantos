@@ -3,12 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:bcsantos/inspection_controller.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:bcsantos/model/historico.dart';
 
 void main() async {
   
   WidgetsFlutterBinding.ensureInitialized();
   
   await Hive.initFlutter();
+
+  Hive.registerAdapter(HistoryAdapter());
+
+  await Hive.openBox<History>('history');
   
   runApp(const MyApp());
 }
@@ -57,16 +62,20 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
 
-  void _incrementCounter() {
+  @override
+  void dispose() {
+    Hive.close();
+    super.dispose();
+  }
+
+  void _newInspection() {
     setState(() {
       // This call to setState tells the Flutter framework that something has
       // changed in this State, which causes it to rerun the build method below
       // so that the display can reflect the updated values. If we changed
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
-      _counter++;
     });
   }
 
@@ -101,7 +110,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: _newInspection,
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
