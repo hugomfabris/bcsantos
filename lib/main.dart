@@ -1,15 +1,20 @@
+import 'package:bcsantos/add_history_page.dart';
 import 'package:bcsantos/inspection_tile.dart';
+import 'package:bcsantos/model/historico.dart';
 import 'package:flutter/material.dart';
 import 'package:bcsantos/inspection_controller.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 void main() async {
-  
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   await Hive.initFlutter();
-  
+  // Registering the adapter
+  Hive.registerAdapter(HistoryAdapter());
+  // Opening the box
+  await Hive.openBox<History>('historicoBox');
+
   runApp(const MyApp());
 }
 
@@ -58,16 +63,17 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  late Box<History> historicoBox;
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
+  @override
+  void initState() {
+    historicoBox = Hive.box('historicoBox');
+    super.initState();
+  }
+
+  void _addHistory(BuildContext context) {
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => const AddHistoryPage(), fullscreenDialog: true));
   }
 
   @override
@@ -85,23 +91,29 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
         centerTitle: true,
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Expanded(
-              child: ListView(
-            children: [
-              for (var i = 0; i < inspectionsList.length; i++) ...[
-                InspectionTile(
-                  inspection: inspectionsList[i],
-                ),
+      body: ValueListenableBuilder(
+          valueListenable: historicoBox.listenable(),
+          builder: (context, box, widget) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                    child: ListView.builder(
+                  itemCount: historicoBox.length,
+                  itemBuilder: (context, index) {
+                    final history = historicoBox.getAt(index);
+                    return ListTile(
+                      title: Text(history!.inspector!),
+                      subtitle: Text(history.inspectionDate.toIso8601String()),
+                      leading: Text("Anotations ${history.anotations}"),
+                    );
+                  },
+                )),
               ],
-            ],
-          )),
-        ],
-      ),
+            );
+          }),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: () => _addHistory(context),
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
