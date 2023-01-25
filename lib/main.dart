@@ -62,7 +62,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  
   late Box<History> historicoBox;
 
   @override
@@ -102,11 +102,20 @@ class _MyHomePageState extends State<MyHomePage> {
                   itemCount: historicoBox.length,
                   itemBuilder: (context, index) {
                     final history = historicoBox.getAt(index);
-                    return ListTile(
+                    return Card(
+                      child: ListTile(
                       title: Text(history!.inspector!),
-                      subtitle: Text(history.inspectionDate.toIso8601String()),
-                      leading: Text("Anotations ${history.anotations}"),
-                    );
+                      subtitle: Text('${history.inspectionDate.day.toString()}-${history.inspectionDate.month.toString()}-${history.inspectionDate.year.toString()}'),
+                      leading: CircleAvatar(
+                        child: Text(history.inspector![0]),
+                      ),
+                      trailing: IconButton(
+                        icon: const Icon((Icons.cloud_upload)),
+                        onPressed: () {
+                          historicoBox.deleteAt(index);
+                        },
+                      ),
+                    ));
                   },
                 )),
               ],
