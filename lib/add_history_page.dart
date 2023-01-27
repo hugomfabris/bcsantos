@@ -1,6 +1,5 @@
 import 'dart:io';
-
-import 'package:bcsantos/model/historico.dart';
+import 'package:bcsantos/model/history.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -25,7 +24,7 @@ class _AddHistoryPageState extends State<AddHistoryPage> {
   @override
   void initState() {
     super.initState();
-    box = Hive.box<History>('historicoBox');
+    box = Hive.box<History>('historyBox');
     _inspectorController = TextEditingController();
     _inspectionTypeController = TextEditingController();
     _anotationsController = TextEditingController();
@@ -55,7 +54,8 @@ class _AddHistoryPageState extends State<AddHistoryPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Adicionar Histórico"),
+        title: const Text("Adicionar Inspeção"),
+        centerTitle: true,
       ),
       floatingActionButton: FloatingActionButton(
           onPressed: () {
@@ -70,13 +70,16 @@ class _AddHistoryPageState extends State<AddHistoryPage> {
             mainAxisSize: MainAxisSize.min,
             children: [
               const Center(
-                child: Text("Adicionar Histórico"),
+                child: Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text("", 
+                style: TextStyle(fontSize: 28.0))),
               ),
               TextField(
                 controller: _inspectorController,
                 decoration: const InputDecoration(
-                  labelText: "Inspeção",
-                  hintText: "Inspeção",
+                  labelText: "Inspetor",
+                  hintText: "Inspetor",
                 ),
               ),
               TextField(
@@ -119,7 +122,10 @@ class _AddHistoryPageState extends State<AddHistoryPage> {
               ElevatedButton(
                   onPressed: () async {
                     FilePickerResult? result =
-                        await FilePicker.platform.pickFiles();
+                        await FilePicker.platform.pickFiles(
+                      type: FileType.custom,
+                      allowedExtensions: ['pdf'],
+                        );
 
                     if (result != null) {
                       final path = result.paths.first;
