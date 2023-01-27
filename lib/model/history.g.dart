@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'historico.dart';
+part of 'history.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
