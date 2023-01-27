@@ -1,11 +1,11 @@
 import 'package:bcsantos/add_history_page.dart';
 import 'package:bcsantos/inspection_tile.dart';
-import 'package:bcsantos/model/historico.dart';
+import 'package:bcsantos/model/history.dart';
 import 'package:flutter/material.dart';
-import 'package:bcsantos/inspection_controller.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:bcsantos/model/historico.dart';
+import 'package:bcsantos/model/history.dart';
+import 'package:open_file_plus/open_file_plus.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,8 +15,7 @@ void main() async {
   // Registering the adapter
   Hive.registerAdapter(HistoryAdapter());
   // Opening the box
-  await Hive.openBox<History>('historicoBox');
-
+  await Hive.openBox<History>('historyBox');
 
   runApp(const MyApp());
 }
@@ -65,19 +64,17 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  
-  late Box<History> historicoBox;
+  late Box<History> historyBox;
 
   @override
   void initState() {
-    historicoBox = Hive.box('historicoBox');
+    historyBox = Hive.box('historyBox');
     super.initState();
   }
 
   void _addHistory(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => const AddHistoryPage(), fullscreenDialog: true));
-
   }
 
   @override
@@ -96,27 +93,28 @@ class _MyHomePageState extends State<MyHomePage> {
         centerTitle: true,
       ),
       body: ValueListenableBuilder(
-          valueListenable: historicoBox.listenable(),
+          valueListenable: historyBox.listenable(),
           builder: (context, box, widget) {
             return Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Expanded(
                     child: ListView.builder(
-                  itemCount: historicoBox.length,
+                  itemCount: historyBox.length,
                   itemBuilder: (context, index) {
-                    final history = historicoBox.getAt(index);
+                    final history = historyBox.getAt(index);
                     return Card(
-                      child: ListTile(
+                        child: ListTile(
                       title: Text(history!.inspector!),
-                      subtitle: Text('${history.inspectionDate.day.toString()}-${history.inspectionDate.month.toString()}-${history.inspectionDate.year.toString()}'),
+                      subtitle: Text(
+                          '${history.inspectionDate.day.toString()}-${history.inspectionDate.month.toString()}-${history.inspectionDate.year.toString()}'),
                       leading: CircleAvatar(
                         child: Text(history.inspector![0]),
                       ),
                       trailing: IconButton(
                         icon: const Icon((Icons.cloud_upload)),
                         onPressed: () {
-                          historicoBox.deleteAt(index);
+                          OpenFile.open(history.archive);
                         },
                       ),
                     ));
@@ -126,9 +124,7 @@ class _MyHomePageState extends State<MyHomePage> {
             );
           }),
       floatingActionButton: FloatingActionButton(
-
         onPressed: () => _addHistory(context),
-
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
