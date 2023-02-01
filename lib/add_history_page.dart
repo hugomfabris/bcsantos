@@ -4,7 +4,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:uuid/uuid.dart';
-
+import 'package:native_pdf_view/native_pdf_view.dart';
 ///This is the screen where you can add a new History to the hive box
 class AddHistoryPage extends StatefulWidget {
   const AddHistoryPage({super.key});
@@ -106,6 +106,7 @@ class _AddHistoryPageState extends State<AddHistoryPage> {
                   onPressed: () async {
                     final date = await showDatePicker(
                         context: context,
+                        helpText: "Selecione a data",
                         initialDate: DateTime.now(),
                         firstDate: DateTime(2015, 8),
                         lastDate: DateTime(2101));
@@ -124,7 +125,8 @@ class _AddHistoryPageState extends State<AddHistoryPage> {
                     FilePickerResult? result =
                         await FilePicker.platform.pickFiles(
                       type: FileType.custom,
-                      allowedExtensions: ['pdf'],
+                      dialogTitle: "Selecione o arquivo da inspeção",
+                      allowedExtensions: ['pdf', 'doc', 'docx', 'xls', 'xlsx'],
                         );
 
                     if (result != null) {
