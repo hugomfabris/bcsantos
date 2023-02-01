@@ -6,6 +6,7 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:bcsantos/model/history.dart';
 import 'package:native_pdf_view/native_pdf_view.dart';
+import 'package:bcsantos/shell_execute_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -63,7 +64,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  
   late Box<History> historyBox;
 
   @override
@@ -72,12 +72,11 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
   }
 
-
   void _addHistory(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => const AddHistoryPage(), fullscreenDialog: true));
   }
-  
+
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -86,7 +85,6 @@ class _MyHomePageState extends State<MyHomePage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
-    
 
     return Scaffold(
       appBar: AppBar(
@@ -117,7 +115,27 @@ class _MyHomePageState extends State<MyHomePage> {
                       trailing: IconButton(
                         icon: const Icon((Icons.cloud_upload)),
                         onPressed: () {
-                          print('Button pressed');
+                          ShellExecuteService shellExecuteService =
+                              ShellExecuteService();
+                          void openFile(path) async {
+                            final filePath = path;
+                            final result =
+                                await shellExecuteService.openFile(filePath);
+                            if (result) {
+                              (mounted) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content: Text('File opened')));
+                              };
+                            } else {
+                              (mounted) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content: Text('File not opened')));
+                              };
+                            }
+                          }
+                          return openFile(history.archive);
                         },
                       ),
                     ));
@@ -128,7 +146,6 @@ class _MyHomePageState extends State<MyHomePage> {
           }),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _addHistory(context),
-        tooltip: 'Increment',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
