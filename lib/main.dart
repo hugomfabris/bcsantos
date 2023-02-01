@@ -5,13 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:bcsantos/model/history.dart';
-import 'package:open_file_plus/open_file_plus.dart';
+import 'package:native_pdf_view/native_pdf_view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Hive.initFlutter();
-
   // Registering the adapter
   Hive.registerAdapter(HistoryAdapter());
   // Opening the box
@@ -64,6 +63,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  
   late Box<History> historyBox;
 
   @override
@@ -72,11 +72,12 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
   }
 
+
   void _addHistory(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => const AddHistoryPage(), fullscreenDialog: true));
   }
-
+  
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -85,6 +86,8 @@ class _MyHomePageState extends State<MyHomePage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
+    
+
     return Scaffold(
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
@@ -114,7 +117,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       trailing: IconButton(
                         icon: const Icon((Icons.cloud_upload)),
                         onPressed: () {
-                          OpenFile.open(history.archive);
+                          print('Button pressed');
                         },
                       ),
                     ));

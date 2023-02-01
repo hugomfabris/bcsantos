@@ -3,6 +3,7 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
+  native_pdf_renderer
 )
 
 list(APPEND FLUTTER_FFI_PLUGIN_LIST
