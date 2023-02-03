@@ -104,41 +104,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   itemCount: historyBox.length,
                   itemBuilder: (context, index) {
                     final history = historyBox.getAt(index);
-                    return Card(
-                        child: ListTile(
-                      title: Text(history!.inspector!),
-                      subtitle: Text(
-                          '${history.inspectionDate.day.toString()}-${history.inspectionDate.month.toString()}-${history.inspectionDate.year.toString()}'),
-                      leading: CircleAvatar(
-                        child: Text(history.inspector![0]),
-                      ),
-                      trailing: IconButton(
-                        icon: const Icon((Icons.cloud_upload)),
-                        onPressed: () {
-                          ShellExecuteService shellExecuteService =
-                              ShellExecuteService();
-                          void openFile(path) async {
-                            final filePath = path;
-                            final result =
-                                await shellExecuteService.openFile(filePath);
-                            if (result) {
-                              (mounted) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                        content: Text('File opened')));
-                              };
-                            } else {
-                              (mounted) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                        content: Text('File not opened')));
-                              };
-                            }
-                          }
-                          return openFile(history.archive);
-                        },
-                      ),
-                    ));
+                    return InspectionTile(historyInspection: history!);
                   },
                 )),
               ],
