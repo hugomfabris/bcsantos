@@ -21,5 +21,14 @@ class History extends HiveObject {
   late int? anotations;
 
   @HiveField(5)
-  late String? archive;
+  late String? reportArchive;
+
+  @HiveField(6)
+  late String? plan;
+
+  @HiveField(7)
+  late String? bc;
+
+  @HiveField(8)
+  late String? rb;
 }
