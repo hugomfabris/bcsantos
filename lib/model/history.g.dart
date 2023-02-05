@@ -22,16 +22,15 @@ class HistoryAdapter extends TypeAdapter<History> {
       ..inspectionType = fields[2] as String?
       ..inspectionDate = fields[3] as DateTime
       ..anotations = fields[4] as int?
-      ..reportArchive = fields[5] as String?
+      ..checklist = fields[5] as String?
       ..plan = fields[6] as String?
-      ..bc = fields[7] as String?
-      ..rb = fields[8] as String?;
+      ..name = fields[7] as String?;
   }
 
   @override
   void write(BinaryWriter writer, History obj) {
     writer
-      ..writeByte(9)
+      ..writeByte(8)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -43,13 +42,11 @@ class HistoryAdapter extends TypeAdapter<History> {
       ..writeByte(4)
       ..write(obj.anotations)
       ..writeByte(5)
-      ..write(obj.reportArchive)
+      ..write(obj.checklist)
       ..writeByte(6)
       ..write(obj.plan)
       ..writeByte(7)
-      ..write(obj.bc)
-      ..writeByte(8)
-      ..write(obj.rb);
+      ..write(obj.name);
   }
 
   @override
