@@ -1,12 +1,13 @@
 import 'package:bcsantos/add_history_page.dart';
 import 'package:bcsantos/inspection_tile.dart';
-import 'package:bcsantos/model/history.dart';
+import 'package:bcsantos/models/history.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:bcsantos/model/history.dart';
+import 'package:bcsantos/models/history.dart';
 import 'package:native_pdf_view/native_pdf_view.dart';
 import 'package:bcsantos/shell_execute_service.dart';
+import 'package:bcsantos/menu.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -77,6 +78,17 @@ class _MyHomePageState extends State<MyHomePage> {
         builder: (context) => const AddHistoryPage(), fullscreenDialog: true));
   }
 
+  void _showMenu(BuildContext context) {
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => const Menu(), fullscreenDialog: true));
+  }
+
+  @override
+  void dispose() {
+    Hive.close();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -90,6 +102,10 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
+        leading: IconButton(
+          icon: const Icon(Icons.menu),
+          onPressed: () => _showMenu(context),
+        ),
         title: Text(widget.title),
         centerTitle: true,
       ),
@@ -106,7 +122,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     final history = historyBox.getAt(index);
                     return InspectionTile(historyInspection: history!);
                   },
-                )),
+                ))
               ],
             );
           }),
