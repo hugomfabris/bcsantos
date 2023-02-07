@@ -1,10 +1,9 @@
 import 'dart:io';
-import 'package:bcsantos/models/history.dart';
+import 'package:bcsantos/models/hive_models.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:uuid/uuid.dart';
-import 'package:native_pdf_view/native_pdf_view.dart';
 
 ///This is the screen where you can add a new History to the hive box
 class AddHistoryPage extends StatefulWidget {

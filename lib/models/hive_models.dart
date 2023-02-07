@@ -1,7 +1,7 @@
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-part 'history.g.dart';
+part 'hive_models.g.dart';
 
 @HiveType(typeId: 0)
 class History extends HiveObject {
@@ -29,3 +29,5 @@ class History extends HiveObject {
   @HiveField(7)
   late String? name;
 }
+
+
