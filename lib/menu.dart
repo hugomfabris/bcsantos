@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'pages/barcaca.dart';
 
 class Menu extends StatefulWidget {
   const Menu({super.key});
@@ -25,10 +26,17 @@ class _MenuState extends State<Menu> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'Here will be the Menu!',
-            ),
-          ],
+            Card(
+              child: ListTile(
+                title: const Center( child: Text('CD INGA')),
+                mouseCursor: MouseCursor.defer,
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const BarcacaPage(),
+                      fullscreenDialog: true));
+                },
+              ),
+        )],
         ),
       ),
     );
