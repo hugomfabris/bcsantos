@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:bcsantos/inspection_controller.dart';
 import 'package:bcsantos/models/hive_models.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +8,8 @@ import 'package:uuid/uuid.dart';
 
 ///This is the screen where you can add a new History to the hive box
 class AddHistoryPage extends StatefulWidget {
-  const AddHistoryPage({super.key});
+  final InspectionController inspectionController;
+  const AddHistoryPage({super.key, required this.inspectionController});
 
   @override
   State<AddHistoryPage> createState() => _AddHistoryPageState();
@@ -31,6 +33,7 @@ class _AddHistoryPageState extends State<AddHistoryPage> {
     _inspectionTypeController = TextEditingController();
     _anotationsController = TextEditingController();
     _nameController = TextEditingController();
+
   }
 
   @override
@@ -51,7 +54,7 @@ class _AddHistoryPageState extends State<AddHistoryPage> {
       ..id = const Uuid().v4()
       ..plan = planPath
       ..name = _nameController.text;
-    box.add(history);
+    widget.inspectionController.addInspection(history);
     Navigator.of(context).pop();
   }
 
