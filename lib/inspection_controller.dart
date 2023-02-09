@@ -1,143 +1,37 @@
 import 'package:bcsantos/inspection_tile.dart';
+import 'package:bcsantos/models/hive_models.dart';
 import 'package:flutter/material.dart';
 import 'package:bcsantos/inspections.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
-class InspectionController {}
+class InspectionController extends ChangeNotifier {
+  final box = Hive.box<History>('historyBox');
 
-final inspectionsList = [
-  Inspection(
-    inspector: 'John Doe',
-    inspectionType: 'Semestral',
-    inspectionDate: '2021-01-01',
-    anotacoes: 5,
-    arquivo: 'arquivo.pdf',
-  ),
-  Inspection(
-    inspector: 'Jane Doe',
-    inspectionType: 'Pre-Operational',
-    inspectionDate: '2021-01-01',
-    anotacoes: 5,
-    arquivo: 'arquivo.pdf',
-  ),
-  Inspection(
-    inspector: 'John Doe',
-    inspectionType: 'Pre-Operational',
-    inspectionDate: '2021-01-01',
-    anotacoes: 5,
-    arquivo: 'arquivo.pdf',
-  ),
-  Inspection(
-    inspector: 'Jane Doe',
-    inspectionType: 'Pre-Operational',
-    inspectionDate: '2021-01-01',
-    anotacoes: 5,
-    arquivo: 'arquivo.pdf',
+  InspectionController() {
+    init();
+  }
 
-  ),
-  Inspection(
-    inspector: 'John Doe',
-    inspectionType: 'Pre-Operational',
-    inspectionDate: '2021-01-01',
-    anotacoes: 5,
-    arquivo: 'arquivo.pdf',
+  void init() {
+    for (var element in box.values) {
+      _inspections.add(element);
+    }
+  }
 
-  ),
-  Inspection(
-    inspector: 'Jane Doe',
-    inspectionType: 'Pre-Operational',
-    inspectionDate: '2021-01-01',
-    anotacoes: 5,
-    arquivo: 'arquivo.pdf',
-  ),
-  Inspection(
-    inspector: 'John Doe',
-    inspectionType: 'Pre-Operational',
-    inspectionDate: '2021-01-01',
-    anotacoes: 5,
-    arquivo: 'arquivo.pdf',
-  ),
-  Inspection(
-    inspector: 'Jane Doe',
-    inspectionType: 'Pre-Operational',
-    inspectionDate: '2021-01-01',
-    anotacoes: 5,
-    arquivo: 'arquivo.pdf',
-  ),
-  Inspection(
-    inspector: 'John Doe',
-    inspectionType: 'Pre-Operational',
-    inspectionDate: '2021-01-01',
-    anotacoes: 5,
-    arquivo: 'arquivo.pdf',
-  ),
-  Inspection(
-    inspector: 'Jane Doe',
-    inspectionType: 'Pre-Operational',
-    inspectionDate: '2021-01-01',
-    anotacoes: 5,
-    arquivo: 'arquivo.pdf',
-  ),
-  Inspection(
-    inspector: 'John Doe',
-    inspectionType: 'Pre-Operational',
-    inspectionDate: '2021-01-01',
-    anotacoes: 5,
-    arquivo: 'arquivo.pdf',
-  ),
-  Inspection(
-    inspector: 'Jane Doe',
-    inspectionType: 'Pre-Operational',
-    inspectionDate: '2021-01-01',
-    anotacoes: 5,
-    arquivo: 'arquivo.pdf',
-  ),
-  Inspection(
-    inspector: 'John Doe',
-    inspectionType: 'Pre-Operational',
-    inspectionDate: '2021-01-01',
-    anotacoes: 5,
-    arquivo: 'arquivo.pdf',
-  ),
-  Inspection(
-    inspector: 'Jane Doe',
-    inspectionType: 'Pre-Operational',
-    inspectionDate: '2021-01-01',
-    anotacoes: 5,
-    arquivo: 'arquivo.pdf',
-  ),
-  Inspection(
-    inspector: 'John Doe',
-    inspectionType: 'Pre-Operational',
-    inspectionDate: '2021-01-01',
-    anotacoes: 5,
-    arquivo: 'arquivo.pdf',
-  ),
-  Inspection(
-    inspector: 'Jane Doe',
-    inspectionType: 'Pre-Operational',
-    inspectionDate: '2021-01-01',
-    anotacoes: 5,
-    arquivo: 'arquivo.pdf',
-  ),
-  Inspection(
-    inspector: 'John Doe',
-    inspectionType: 'Pre-Operational',
-    inspectionDate: '2021-01-01',
-    anotacoes: 5,
-    arquivo: 'arquivo.pdf',
-  ),
-  Inspection(
-    inspector: 'Jane Doe',
-    inspectionType: 'Pre-Operational',
-    inspectionDate: '2021-01-01',
-    anotacoes: 5,
-    arquivo: 'arquivo.pdf',
-  ),
-  Inspection(
-    inspector: 'John Doe',
-    inspectionType: 'Pre-Operational',
-    inspectionDate: '2021-01-01',
-    anotacoes: 5,
-    arquivo: 'arquivo.pdf',
-  ),
-];
+  final List<History> _inspections = [];
+
+  List<History> get inspections {
+    return _inspections;
+  }
+
+  void addInspection(History inspection) {
+    _inspections.add(inspection);
+    notifyListeners();
+    box.add(inspection);
+  }
+
+  void removeInspection(History inspection) {
+    _inspections.remove(inspection);
+    notifyListeners();
+    inspection.delete();
+  }
+}
