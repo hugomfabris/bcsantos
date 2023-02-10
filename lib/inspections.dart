@@ -4,7 +4,7 @@ class Inspection {
   String? inspectionType;
   String? inspectionDate;
   int? anotacoes;
-  String? arquivo;
+  String? archive;
 
   Inspection({
     this.id,
@@ -12,6 +12,6 @@ class Inspection {
     this.inspectionType,
     this.inspectionDate,
     this.anotacoes,
-    this.arquivo,
+    this.archive,
   });
 }

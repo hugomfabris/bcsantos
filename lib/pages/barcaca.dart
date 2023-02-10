@@ -17,7 +17,7 @@ class BarcacaPage extends StatefulWidget {
 
 class _BarcacaPageState extends State<BarcacaPage> {
   String? planPath;
-  late Box historybox = Hive.box<History>('historyBox');
+  late Box historybox = Hive.box<Inspection>('historyBox');
   late Box barcacabox;
   final String barcaca = 'CD Inga';
 

@@ -6,16 +6,18 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:uuid/uuid.dart';
 
-///This is the screen where you can add a new History to the hive box
-class AddHistoryPage extends StatefulWidget {
+///This is the screen where you can add a new Inspection to the hive box
+class AddInspectionPage extends StatefulWidget {
+  
   final InspectionController inspectionController;
-  const AddHistoryPage({super.key, required this.inspectionController});
+  
+  const AddInspectionPage({super.key, required this.inspectionController});
 
   @override
-  State<AddHistoryPage> createState() => _AddHistoryPageState();
+  State<AddInspectionPage> createState() => _AddInspectionPageState();
 }
 
-class _AddHistoryPageState extends State<AddHistoryPage> {
+class _AddInspectionPageState extends State<AddInspectionPage> {
   late TextEditingController _inspectorController;
   late TextEditingController _inspectionTypeController;
   late TextEditingController _anotationsController;
@@ -28,7 +30,7 @@ class _AddHistoryPageState extends State<AddHistoryPage> {
   @override
   void initState() {
     super.initState();
-    box = Hive.box<History>('historyBox');
+    box = Hive.box<Inspection>('inspectionBox');
     _inspectorController = TextEditingController();
     _inspectionTypeController = TextEditingController();
     _anotationsController = TextEditingController();
@@ -44,8 +46,8 @@ class _AddHistoryPageState extends State<AddHistoryPage> {
     super.dispose();
   }
 
-  void saveHistory() {
-    final history = History()
+  void saveInspection() {
+    final inspection = Inspection()
       ..inspector = _inspectorController.text
       ..inspectionType = _inspectionTypeController.text
       ..anotations = int.parse(_anotationsController.text)
@@ -54,7 +56,7 @@ class _AddHistoryPageState extends State<AddHistoryPage> {
       ..id = const Uuid().v4()
       ..plan = planPath
       ..name = _nameController.text;
-    widget.inspectionController.addInspection(history);
+    widget.inspectionController.addInspection(inspection);
     Navigator.of(context).pop();
   }
 
@@ -67,7 +69,7 @@ class _AddHistoryPageState extends State<AddHistoryPage> {
       ),
       floatingActionButton: FloatingActionButton(
           onPressed: () {
-            saveHistory();
+            saveInspection();
           },
           child: const Icon(Icons.save)),
       body: SingleChildScrollView(

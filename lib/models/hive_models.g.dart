@@ -6,17 +6,17 @@ part of 'hive_models.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
-class HistoryAdapter extends TypeAdapter<History> {
+class InspectionAdapter extends TypeAdapter<Inspection> {
   @override
   final int typeId = 0;
 
   @override
-  History read(BinaryReader reader) {
+  Inspection read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return History()
+    return Inspection()
       ..id = fields[0] as String?
       ..inspector = fields[1] as String?
       ..inspectionType = fields[2] as String?
@@ -28,7 +28,7 @@ class HistoryAdapter extends TypeAdapter<History> {
   }
 
   @override
-  void write(BinaryWriter writer, History obj) {
+  void write(BinaryWriter writer, Inspection obj) {
     writer
       ..writeByte(8)
       ..writeByte(0)
@@ -55,7 +55,7 @@ class HistoryAdapter extends TypeAdapter<History> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is HistoryAdapter &&
+      other is InspectionAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

@@ -2,15 +2,16 @@ import 'package:bcsantos/inspection_controller.dart';
 import 'package:bcsantos/models/hive_models.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:hive/hive.dart';
 import 'package:bcsantos/pages/home_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   // Registering the adapter
-  Hive.registerAdapter(HistoryAdapter());
+  Hive.registerAdapter(InspectionAdapter());
   // Opening the box
-  await Hive.openBox<History>('historyBox');
+  await Hive.openBox<Inspection>('inspectionBox');
 
   runApp(const MyApp());
 }

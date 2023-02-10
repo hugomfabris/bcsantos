@@ -10,7 +10,7 @@ class InspectionTile extends StatelessWidget {
     required this.inspection,
   });
 
-  final History inspection;
+  final Inspection inspection;
 
   @override
   Widget build(BuildContext context) {

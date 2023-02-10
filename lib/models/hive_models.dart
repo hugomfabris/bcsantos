@@ -4,7 +4,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 part 'hive_models.g.dart';
 
 @HiveType(typeId: 0)
-class History extends HiveObject {
+class Inspection extends HiveObject {
   @HiveField(0)
   late String? id;
 

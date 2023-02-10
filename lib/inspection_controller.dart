@@ -1,11 +1,10 @@
 import 'package:bcsantos/inspection_tile.dart';
 import 'package:bcsantos/models/hive_models.dart';
 import 'package:flutter/material.dart';
-import 'package:bcsantos/inspections.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class InspectionController extends ChangeNotifier {
-  final box = Hive.box<History>('historyBox');
+  final box = Hive.box<Inspection>('inspectionBox');
 
   InspectionController() {
     init();
@@ -17,19 +16,19 @@ class InspectionController extends ChangeNotifier {
     }
   }
 
-  final List<History> _inspections = [];
+  final List<Inspection> _inspections = [];
 
-  List<History> get inspections {
+  List<Inspection> get inspections {
     return _inspections;
   }
 
-  void addInspection(History inspection) {
+  void addInspection(Inspection inspection) {
     _inspections.add(inspection);
     notifyListeners();
     box.add(inspection);
   }
 
-  void removeInspection(History inspection) {
+  void removeInspection(Inspection inspection) {
     _inspections.remove(inspection);
     notifyListeners();
     inspection.delete();
