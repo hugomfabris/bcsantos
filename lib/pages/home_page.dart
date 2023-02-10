@@ -5,7 +5,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 import '../inspection_tile.dart';
 import '../menu.dart';
-import 'add_history_page.dart';
+import 'add_inspection_page.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -27,7 +27,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   late InspectionController inspectionController;
-  bool isSwitched = false;
+  bool chipsVisibility = false;
 
   @override
   void initState() {
@@ -35,17 +35,17 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
   }
 
-  void _addHistory(BuildContext context) {
+  void _addInspection(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => AddHistoryPage(
+        builder: (context) => AddInspectionPage(
               inspectionController: inspectionController,
             ),
         fullscreenDialog: true));
   }
 
   void _showMenu(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => const Menu(), fullscreenDialog: true));
+    setState(() {});
+    chipsVisibility = !chipsVisibility;
   }
 
   @override
@@ -80,14 +80,24 @@ class _MyHomePageState extends State<MyHomePage> {
             return Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                
+                const SizedBox(height: 20),
+                Visibility(
+                  visible: chipsVisibility,
+                  child: Wrap(
+                  spacing: 6.0,
+                  runSpacing: 6.0,
+                  children: <Widget>[
+                    const Text("The Chips will be here"),
+                  ],
+                ),),
+                const SizedBox(height: 20),
                 Expanded(
                     child: ListView.builder(
                   itemCount: inspectionController.inspections.length,
                   itemBuilder: (context, index) {
-                    final history = inspectionController.inspections[index];
+                    final inspection = inspectionController.inspections[index];
                     return InspectionTile(
-                      inspection: history,
+                      inspection: inspection,
                     );
                   },
                 ))
@@ -95,7 +105,7 @@ class _MyHomePageState extends State<MyHomePage> {
             );
           }),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => _addHistory(context),
+        onPressed: () => _addInspection(context),
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
