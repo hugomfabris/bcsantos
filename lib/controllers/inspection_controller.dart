@@ -33,4 +33,5 @@ class InspectionController extends ChangeNotifier {
     notifyListeners();
     inspection.delete();
   }
+
 }

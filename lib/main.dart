@@ -1,4 +1,4 @@
-import 'package:bcsantos/inspection_controller.dart';
+import 'package:bcsantos/controllers/inspection_controller.dart';
 import 'package:bcsantos/models/hive_models.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';

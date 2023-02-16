@@ -29,6 +29,7 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  chips_choice: ^3.0.0
   cupertino_icons: ^1.0.2
   ffi: ^2.0.1
   file_picker: ^5.2.5

@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:bcsantos/inspection_controller.dart';
+import 'package:bcsantos/controllers/inspection_controller.dart';
 import 'package:bcsantos/models/hive_models.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
