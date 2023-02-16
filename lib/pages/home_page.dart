@@ -1,11 +1,12 @@
-import 'package:bcsantos/inspection_controller.dart';
+import 'package:bcsantos/controllers/inspection_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-
 import '../inspection_tile.dart';
 import '../menu.dart';
 import 'add_inspection_page.dart';
+import 'package:chips_choice/chips_choice.dart';
+import 'package:bcsantos/content.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -26,8 +27,25 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  
   late InspectionController inspectionController;
   bool chipsVisibility = false;
+
+  int tag = 10;
+  List<String> chips = [
+    'CD ICARAI',
+    'CD INGA',
+    'E-240',
+    'OMS V',
+    'OMS XVII',
+    'SC 42',
+    'SC 54',
+    'ECO MARITMO',
+    'FLAMENGO',
+    'PRAINHA',
+    'THOR AMIGO',
+    'SM VITORIA',
+  ];
 
   @override
   void initState() {
@@ -80,17 +98,33 @@ class _MyHomePageState extends State<MyHomePage> {
             return Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const SizedBox(height: 20),
                 Visibility(
                   visible: chipsVisibility,
                   child: Wrap(
-                  spacing: 6.0,
-                  runSpacing: 6.0,
                   children: <Widget>[
-                    const Text("The Chips will be here"),
+                      Content(
+                    title: '',
+                    child: ChipsChoice<int>.single(
+                      value: tag,
+                      onChanged: (val) => setState(() => tag = val),
+                      choiceItems: C2Choice.listFrom<int, String>(
+                        source: chips,
+                        value: (i, v) => i,
+                        label: (i, v) => v,
+                        tooltip: (i, v) => v,
+                      ),
+                      choiceCheckmark: true,
+                      choiceStyle: C2ChipStyle.filled(
+                        selectedStyle: const C2ChipStyle(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(25),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                   ],
-                ),),
-                const SizedBox(height: 20),
+                )),
                 Expanded(
                     child: ListView.builder(
                   itemCount: inspectionController.inspections.length,
