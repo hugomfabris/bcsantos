@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import '../inspection_tile.dart';
-import '../menu.dart';
+import '../models/hive_models.dart';
 import 'add_inspection_page.dart';
 import 'package:chips_choice/chips_choice.dart';
 import 'package:bcsantos/content.dart';
@@ -27,25 +27,38 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  
   late InspectionController inspectionController;
   bool chipsVisibility = false;
 
   int tag = 10;
-  List<String> chips = [
-    'CD ICARAI',
-    'CD INGA',
-    'E-240',
-    'OMS V',
-    'OMS XVII',
-    'SC 42',
-    'SC 54',
-    'ECO MARITMO',
-    'FLAMENGO',
-    'PRAINHA',
-    'THOR AMIGO',
-    'SM VITORIA',
-  ];
+  // List<String> chips = [
+  //   'CD ICARAI',
+  //   'CD INGA',
+  //   'E-240',
+  //   'OMS V',
+  //   'OMS XVII',
+  //   'SC 42',
+  //   'SC 54',
+  //   'ECO MARITMO',
+  //   'FLAMENGO',
+  //   'PRAINHA',
+  //   'THOR AMIGO',
+  //   'SM VITORIA',
+  // ];
+  final box = Hive.box<Inspection>('inspectionBox');
+
+  List<String> chipsGenerator() {
+
+    var chipsNames = <String>[];
+
+    for (var element in box.values) {
+      if (chipsNames.contains(element.name) == false) {
+        chipsNames.add(element.name.toString());
+      }
+    }
+    print(chipsNames);
+    return chipsNames;
+  }
 
   @override
   void initState() {
@@ -99,32 +112,31 @@ class _MyHomePageState extends State<MyHomePage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Visibility(
-                  visible: chipsVisibility,
-                  child: Wrap(
-                  children: <Widget>[
-                      Content(
-                    title: '',
-                    child: ChipsChoice<int>.single(
-                      value: tag,
-                      onChanged: (val) => setState(() => tag = val),
-                      choiceItems: C2Choice.listFrom<int, String>(
-                        source: chips,
-                        value: (i, v) => i,
-                        label: (i, v) => v,
-                        tooltip: (i, v) => v,
-                      ),
-                      choiceCheckmark: true,
-                      choiceStyle: C2ChipStyle.filled(
-                        selectedStyle: const C2ChipStyle(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(25),
+                    visible: chipsVisibility,
+                    child: Wrap(
+                      children: <Widget>[
+                        Content(
+                          title: '',
+                          child: ChipsChoice<int>.single(
+                            value: tag,
+                            onChanged: (val) => setState(() => tag = val),
+                            choiceItems: C2Choice.listFrom<int, String>(
+                              source: chipsGenerator(),
+                              value: (i, v) => i,
+                              label: (i, v) => v,
+                              tooltip: (i, v) => v,
+                            ),
+                            choiceStyle: C2ChipStyle.filled(
+                              selectedStyle: const C2ChipStyle(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(5),
+                                ),
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                    ),
-                  ),
-                  ],
-                )),
+                      ],
+                    )),
                 Expanded(
                     child: ListView.builder(
                   itemCount: inspectionController.inspections.length,
