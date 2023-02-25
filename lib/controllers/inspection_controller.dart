@@ -17,6 +17,7 @@ class InspectionController extends ChangeNotifier {
   }
 
   final List<Inspection> _inspections = [];
+  final List<String> chipsNames = [];
 
   List<Inspection> get inspections {
     return _inspections;
@@ -33,5 +34,15 @@ class InspectionController extends ChangeNotifier {
     notifyListeners();
     inspection.delete();
   }
+
+  // List<String> chipsGenerator() {
+
+  //   for (var element in box.values) {
+  //     if (chipsNames.contains(element.name) == false) {
+  //       chipsNames.add(element.toString());
+  //     }
+  //   }
+  //   return chipsNames;
+  // }
 
 }
