@@ -41,28 +41,38 @@ class InspectionTile extends StatelessWidget {
             leading: CircleAvatar(
               child: Text(inspection.inspector![0]),
             ),
-            trailing: IconButton(
-                icon: const Icon((Icons.file_upload)),
-                onPressed: () {
-                  ShellExecuteService shellExecuteService =
-                      ShellExecuteService();
-                  void openFile(path) async {
-                    final filePath = path;
-                    final result = await shellExecuteService.openFile(filePath);
-                    if (result) {
-                      (mounted) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('File opened')));
-                      };
-                    } else {
-                      (mounted) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('File not opened')));
-                      };
+            trailing: 
+              Wrap(
+                children: [
+                  IconButton(
+                      icon: const Icon(Icons.delete),
+                      onPressed: () async {
+                        InspectionController inspectionController =
+                            InspectionController();
+                        inspectionController.removeInspection(inspection);
+                      }),
+                  IconButton(
+                  icon: const Icon((Icons.file_upload)),
+                  onPressed: () {
+                    ShellExecuteService shellExecuteService =
+                        ShellExecuteService();
+                    void openFile(path) async {
+                      final filePath = path;
+                      final result = await shellExecuteService.openFile(filePath);
+                      if (result) {
+                        (mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('File opened')));
+                        };
+                      } else {
+                        (mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('File not opened')));
+                        };
+                      }
                     }
-                  }
 
                   return openFile(inspection.checklist);
-                })));
+                })])));
   }
 }
