@@ -14,6 +14,7 @@ void main() async {
   await Hive.openBox<Inspection>('inspectionBox');
 
   runApp(const MyApp());
+  
 }
 
 class MyApp extends StatelessWidget {

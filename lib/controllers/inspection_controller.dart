@@ -34,15 +34,16 @@ class InspectionController extends ChangeNotifier {
     notifyListeners();
     inspection.delete();
   }
+  List<String> chipsGenerator() {
 
-  // List<String> chipsGenerator() {
+    var chipsNames = <String>[];
 
-  //   for (var element in box.values) {
-  //     if (chipsNames.contains(element.name) == false) {
-  //       chipsNames.add(element.toString());
-  //     }
-  //   }
-  //   return chipsNames;
-  // }
+    for (var element in box.values) {
+      if (chipsNames.contains(element.name) == false) {
+        chipsNames.add(element.name.toString());
+      }
+    }
 
+    return chipsNames;
+  }
 }

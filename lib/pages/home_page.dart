@@ -27,10 +27,12 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  
   late InspectionController inspectionController;
   bool chipsVisibility = false;
-
+  final box = Hive.box<Inspection>('inspectionBox');
   int tag = 10;
+
   // List<String> chips = [
   //   'CD ICARAI',
   //   'CD INGA',
@@ -45,20 +47,19 @@ class _MyHomePageState extends State<MyHomePage> {
   //   'THOR AMIGO',
   //   'SM VITORIA',
   // ];
-  final box = Hive.box<Inspection>('inspectionBox');
+  
+  // List<String> chipsGenerator() {
 
-  List<String> chipsGenerator() {
+  //   var chipsNames = <String>[];
 
-    var chipsNames = <String>[];
-
-    for (var element in box.values) {
-      if (chipsNames.contains(element.name) == false) {
-        chipsNames.add(element.name.toString());
-      }
-    }
-    print(chipsNames);
-    return chipsNames;
-  }
+  //   for (var element in box.values) {
+  //     if (chipsNames.contains(element.name) == false) {
+  //       chipsNames.add(element.name.toString());
+  //     }
+  //   }
+  //   print(chipsNames);
+  //   return chipsNames;
+  // }
 
   @override
   void initState() {
@@ -121,7 +122,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             value: tag,
                             onChanged: (val) => setState(() => tag = val),
                             choiceItems: C2Choice.listFrom<int, String>(
-                              source: chipsGenerator(),
+                              source: inspectionController.chipsGenerator(),
                               value: (i, v) => i,
                               label: (i, v) => v,
                               tooltip: (i, v) => v,
