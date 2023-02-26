@@ -19,11 +19,11 @@ class InspectionTile extends StatelessWidget {
             title: Center(
                 child: DataTable(columns: [
               DataColumn(label: Text('BC/RB', textAlign: TextAlign.center)),
-              DataColumn(label: Text('Inspetor', textAlign: TextAlign.center)),
-              DataColumn(label: Text('Anotações', textAlign: TextAlign.center)),
+              DataColumn(label: Text('INSPETOR', textAlign: TextAlign.center)),
+              DataColumn(label: Text('ANOTAÇÕES', textAlign: TextAlign.center)),
               DataColumn(
-                  label: Text('Tipo de Inspeção', textAlign: TextAlign.center)),
-              DataColumn(label: Text('Data', textAlign: TextAlign.center))
+                  label: Text('INSPEÇÃO', textAlign: TextAlign.center)),
+              DataColumn(label: Text('DATA', textAlign: TextAlign.center))
             ], rows: [
               DataRow(cells: [
                 DataCell(Text(inspection.name!, textAlign: TextAlign.center)),
