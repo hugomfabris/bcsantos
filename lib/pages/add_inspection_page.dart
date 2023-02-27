@@ -48,14 +48,14 @@ class _AddInspectionPageState extends State<AddInspectionPage> {
 
   void saveInspection() {
     final inspection = Inspection()
-      ..inspector = _inspectorController.text
-      ..inspectionType = _inspectionTypeController.text
+      ..inspector = _inspectorController.text.toUpperCase()
+      ..inspectionType = _inspectionTypeController.text.toUpperCase()
       ..anotations = int.parse(_anotationsController.text)
       ..inspectionDate = inspectionDate ?? DateTime.now()
       ..checklist = checklistPath
       ..id = const Uuid().v4()
       ..plan = planPath
-      ..name = _nameController.text;
+      ..name = _nameController.text.toUpperCase();
     widget.inspectionController.addInspection(inspection);
     Navigator.of(context).pop();
   }
