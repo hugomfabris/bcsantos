@@ -1,3 +1,4 @@
+import 'package:bcsantos/controllers/chips_controller.dart';
 import 'package:bcsantos/controllers/inspection_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
@@ -7,6 +8,7 @@ import '../models/hive_models.dart';
 import 'add_inspection_page.dart';
 import 'package:chips_choice/chips_choice.dart';
 import 'package:bcsantos/content.dart';
+
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -29,6 +31,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   
   late InspectionController inspectionController;
+  late ChipsController chipsController;
   bool chipsVisibility = false;
   final box = Hive.box<Inspection>('inspectionBox');
   int tag = 10;
@@ -64,6 +67,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     inspectionController = InspectionController();
+    chipsController = ChipsController();
     super.initState();
   }
 
@@ -117,12 +121,11 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: Wrap(
                       children: <Widget>[
                         Content(
-                          title: '',
                           child: ChipsChoice<int>.single(
                             value: tag,
                             onChanged: (val) => setState(() => tag = val),
                             choiceItems: C2Choice.listFrom<int, String>(
-                              source: inspectionController.chipsGenerator(),
+                              source: chipsController.chipsNames,
                               value: (i, v) => i,
                               label: (i, v) => v,
                               tooltip: (i, v) => v,
