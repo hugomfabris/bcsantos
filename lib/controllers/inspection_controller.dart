@@ -4,20 +4,19 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class InspectionController extends ChangeNotifier {
-  final box = Hive.box<Inspection>('inspectionBox');
 
   InspectionController() {
     init();
   }
+
+  final box = Hive.box<Inspection>('inspectionBox');
+  final List<Inspection> _inspections = [];
 
   void init() {
     for (var element in box.values) {
       _inspections.add(element);
     }
   }
-
-  final List<Inspection> _inspections = [];
-  final List<String> chipsNames = [];
 
   List<Inspection> get inspections {
     return _inspections;
@@ -33,17 +32,7 @@ class InspectionController extends ChangeNotifier {
     _inspections.remove(inspection);
     notifyListeners();
     inspection.delete();
-  }
-  List<String> chipsGenerator() {
-
-    var chipsNames = <String>[];
-
-    for (var element in box.values) {
-      if (chipsNames.contains(element.name) == false) {
-        chipsNames.add(element.name.toString());
-      }
-    }
-
-    return chipsNames;
+    
+    
   }
 }
