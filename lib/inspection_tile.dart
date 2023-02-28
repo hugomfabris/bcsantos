@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:bcsantos/controllers/inspection_controller.dart';
 import 'package:bcsantos/models/hive_models.dart';
 import 'package:flutter/material.dart';
@@ -5,12 +6,17 @@ import 'package:bcsantos/services/shell_execute_service.dart';
 import 'package:hive/hive.dart';
 
 class InspectionTile extends StatelessWidget {
-  InspectionTile({
+  const InspectionTile({
     super.key,
     required this.inspection,
   });
 
   final Inspection inspection;
+
+  // void deleteInspection(inspection) {
+  //   InspectionController inspectionController = InspectionController();
+  //   inspectionController.removeInspection(inspection);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -21,8 +27,7 @@ class InspectionTile extends StatelessWidget {
               DataColumn(label: Text('BC/RB', textAlign: TextAlign.center)),
               DataColumn(label: Text('INSPETOR', textAlign: TextAlign.center)),
               DataColumn(label: Text('ANOTAÇÕES', textAlign: TextAlign.center)),
-              DataColumn(
-                  label: Text('INSPEÇÃO', textAlign: TextAlign.center)),
+              DataColumn(label: Text('INSPEÇÃO', textAlign: TextAlign.center)),
               DataColumn(label: Text('DATA', textAlign: TextAlign.center))
             ], rows: [
               DataRow(cells: [
@@ -41,24 +46,23 @@ class InspectionTile extends StatelessWidget {
             leading: CircleAvatar(
               child: Text(inspection.inspector![0]),
             ),
-            trailing: 
-              Wrap(
-                children: [
-                  IconButton(
-                      icon: const Icon(Icons.delete),
-                      onPressed: () async {
-                        InspectionController inspectionController =
-                            InspectionController();
-                        inspectionController.removeInspection(inspection);
-                      }),
-                  IconButton(
+            trailing: Wrap(children: [
+              IconButton(
+                  icon: const Icon(Icons.delete),
+                  onPressed: () {
+                    final InspectionController inspectionController =
+                        InspectionController();
+                    inspectionController.removeInspection(inspection);
+                  }),
+              IconButton(
                   icon: const Icon((Icons.file_upload)),
                   onPressed: () {
                     ShellExecuteService shellExecuteService =
                         ShellExecuteService();
                     void openFile(path) async {
                       final filePath = path;
-                      final result = await shellExecuteService.openFile(filePath);
+                      final result =
+                          await shellExecuteService.openFile(filePath);
                       if (result) {
                         (mounted) {
                           ScaffoldMessenger.of(context).showSnackBar(
@@ -72,7 +76,8 @@ class InspectionTile extends StatelessWidget {
                       }
                     }
 
-                  return openFile(inspection.checklist);
-                })])));
+                    return openFile(inspection.checklist);
+                  })
+            ])));
   }
 }
