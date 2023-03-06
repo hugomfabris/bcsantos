@@ -34,35 +34,7 @@ class _MyHomePageState extends State<MyHomePage> {
   late ChipsController chipsController;
   bool chipsVisibility = false;
   final box = Hive.box<Inspection>('inspectionBox');
-  int tag = 10;
-
-  // List<String> chips = [
-  //   'CD ICARAI',
-  //   'CD INGA',
-  //   'E-240',
-  //   'OMS V',
-  //   'OMS XVII',
-  //   'SC 42',
-  //   'SC 54',
-  //   'ECO MARITMO',
-  //   'FLAMENGO',
-  //   'PRAINHA',
-  //   'THOR AMIGO',
-  //   'SM VITORIA',
-  // ];
-  
-  // List<String> chipsGenerator() {
-
-  //   var chipsNames = <String>[];
-
-  //   for (var element in box.values) {
-  //     if (chipsNames.contains(element.name) == false) {
-  //       chipsNames.add(element.name.toString());
-  //     }
-  //   }
-  //   print(chipsNames);
-  //   return chipsNames;
-  // }
+  int tag = 1;
 
   @override
   void initState() {
@@ -141,16 +113,16 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                       ],
                     )),
-                Expanded(
-                    child: ListView.builder(
-                  itemCount: inspectionController.inspections.length,
-                  itemBuilder: (context, index) {
-                    final inspection = inspectionController.inspections[index];
-                    return InspectionTile(
-                      inspection: inspection,
-                    );
-                  },
-                ))
+                  Expanded(
+                      child: ListView.builder(
+                    itemCount: inspectionController.inspections.length,
+                    itemBuilder: (context, index) {
+                      final inspection = inspectionController.inspections[index];
+                      return InspectionTile(
+                        inspection: inspection,
+                      );
+                    },
+                  ))
               ],
             );
           }),
