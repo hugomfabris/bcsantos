@@ -1,4 +1,3 @@
-import 'package:bcsantos/controllers/chips_controller.dart';
 import 'package:bcsantos/controllers/inspection_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
@@ -8,7 +7,7 @@ import '../models/hive_models.dart';
 import 'add_inspection_page.dart';
 import 'package:chips_choice/chips_choice.dart';
 import 'package:bcsantos/content.dart';
-
+import 'package:bcsantos/filter_chips.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -29,17 +28,13 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  
   late InspectionController inspectionController;
-  late ChipsController chipsController;
   bool chipsVisibility = false;
   final box = Hive.box<Inspection>('inspectionBox');
-  int tag = 1;
 
   @override
   void initState() {
     inspectionController = InspectionController();
-    chipsController = ChipsController();
     super.initState();
   }
 
@@ -93,14 +88,23 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: Wrap(
                       children: <Widget>[
                         Content(
-                          child: ChipsChoice<int>.single(
-                            value: tag,
-                            onChanged: (val) => setState(() => tag = val),
-                            choiceItems: C2Choice.listFrom<int, String>(
-                              source: chipsController.chipsNames,
-                              value: (i, v) => i,
+                          child: ChipsChoice<String>.single(
+                            value: null,
+                            onChanged: (val) {
+                              var setFilter = inspectionController.setFilter(val);
+                              if (val == setFilter) {
+                                //removing filter
+                                setFilter.notifier.state = null;
+                                inspectionController.clearFilters();
+                              } else {
+                                //adding filter
+                                inspectionController.setFilter(val);
+                              }
+                            },
+                            choiceItems: C2Choice.listFrom<String, String>(
+                              source: inspectionController.chipsNames.toList(),
+                              value: (i, v) => v,
                               label: (i, v) => v,
-                              tooltip: (i, v) => v,
                             ),
                             choiceStyle: C2ChipStyle.filled(
                               selectedStyle: const C2ChipStyle(
@@ -109,20 +113,21 @@ class _MyHomePageState extends State<MyHomePage> {
                                 ),
                               ),
                             ),
+                            ),
+                            
                           ),
-                        ),
                       ],
                     )),
-                  Expanded(
-                      child: ListView.builder(
-                    itemCount: inspectionController.inspections.length,
-                    itemBuilder: (context, index) {
-                      final inspection = inspectionController.inspections[index];
-                      return InspectionTile(
-                        inspection: inspection,
-                      );
-                    },
-                  ))
+                Expanded(
+                    child: ListView.builder(
+                  itemCount: inspectionController.inspections.length,
+                  itemBuilder: (context, index) {
+                    final inspection = inspectionController.inspections[index];
+                    return InspectionTile(
+                      inspection: inspection,
+                    );
+                  },
+                ))
               ],
             );
           }),
