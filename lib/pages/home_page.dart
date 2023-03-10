@@ -31,6 +31,7 @@ class _MyHomePageState extends State<MyHomePage> {
   bool chipsVisibility = false;
   final box = Hive.box<Inspection>('inspectionBox');
   String? selectedFilter = null;
+  
 
   @override
   void initState() {
@@ -95,7 +96,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 //removing filter
                                 inspectionController.clearFilters();
                                 selectedFilter = null;
-                              } else if (val == null) {
+                              } else if (selectedFilter == null) {
                                 //adding filter
                                 selectedFilter = val;
                                 inspectionController.setFilter(val);
@@ -129,6 +130,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     final inspection = inspectionController.inspections[index];
                     return InspectionTile(
                       inspection: inspection,
+                      inspectionController: inspectionController,
                     );
                   },
                 ))
