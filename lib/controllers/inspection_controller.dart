@@ -40,9 +40,10 @@ class InspectionController extends ChangeNotifier {
   }
 
   void removeInspection(Inspection inspection) {
+    inspection.delete();
     _inspections.remove(inspection);
     notifyListeners();
-    inspection.delete();
+    
   }
 
   setFilter(String name) {
