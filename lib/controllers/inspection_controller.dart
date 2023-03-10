@@ -31,7 +31,7 @@ class InspectionController extends ChangeNotifier {
 
   List<String> get chipsNames {
     return _chipsNames;
-    }
+  }
 
   void addInspection(Inspection inspection) {
     _inspections.add(inspection);
@@ -46,11 +46,13 @@ class InspectionController extends ChangeNotifier {
   }
 
   setFilter(String name) {
-    _inspections = _inspections.where((element) => element.name == name).toList();
+    _inspections =
+        _inspections.where((element) => element.name == name).toList();
     notifyListeners();
   }
 
   clearFilters() {
+    _inspections = [];
     init();
     notifyListeners();
   }
