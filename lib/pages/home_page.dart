@@ -7,7 +7,6 @@ import '../models/hive_models.dart';
 import 'add_inspection_page.dart';
 import 'package:chips_choice/chips_choice.dart';
 import 'package:bcsantos/content.dart';
-import 'package:bcsantos/filter_chips.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
