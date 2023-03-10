@@ -1,22 +1,39 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:bcsantos/controllers/inspection_controller.dart';
 import 'package:bcsantos/models/hive_models.dart';
 import 'package:flutter/material.dart';
 import 'package:bcsantos/services/shell_execute_service.dart';
 import 'package:hive/hive.dart';
+import 'package:bcsantos/pages/home_page.dart';
 
-class InspectionTile extends StatelessWidget {
-  const InspectionTile({
-    super.key,
-    required this.inspection,
-  });
+class InspectionTile extends StatefulWidget {
 
   final Inspection inspection;
+  final InspectionController inspectionController;
 
-  // void deleteInspection(inspection) {
-  //   InspectionController inspectionController = InspectionController();
-  //   inspectionController.removeInspection(inspection);
-  // }
+  const InspectionTile(
+      {super.key,
+      required this.inspection,
+      required this.inspectionController});
+
+  @override
+  State<InspectionTile> createState() => InspectionTileState();
+}
+
+class InspectionTileState extends State<InspectionTile> {
+  
+
+  void removeInspection() {
+
+    widget.inspectionController.removeInspection(widget.inspection);
+
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,28 +48,28 @@ class InspectionTile extends StatelessWidget {
               DataColumn(label: Text('DATA', textAlign: TextAlign.center))
             ], rows: [
               DataRow(cells: [
-                DataCell(Text(inspection.name!, textAlign: TextAlign.center)),
+                DataCell(Text(widget.inspection.name!, textAlign: TextAlign.center)),
                 DataCell(
-                    Text(inspection.inspector!, textAlign: TextAlign.center)),
-                DataCell(Text(inspection.anotations.toString(),
+                    Text(widget.inspection.inspector!, textAlign: TextAlign.center)),
+                DataCell(Text(widget.inspection.anotations.toString(),
                     textAlign: TextAlign.center)),
-                DataCell(Text(inspection.inspectionType!,
+                DataCell(Text(widget.inspection.inspectionType!,
                     textAlign: TextAlign.center)),
                 DataCell(Text(
-                    '${inspection.inspectionDate.day.toString()}-${inspection.inspectionDate.month.toString()}-${inspection.inspectionDate.year.toString()}',
+                    '${widget.inspection.inspectionDate.day.toString()}-${widget.inspection.inspectionDate.month.toString()}-${widget.inspection.inspectionDate.year.toString()}',
                     textAlign: TextAlign.center))
               ])
             ])),
             leading: CircleAvatar(
-              child: Text(inspection.inspector![0]),
+              child: Text(widget.inspection.inspector![0]),
             ),
             trailing: Wrap(children: [
               IconButton(
                   icon: const Icon(Icons.delete),
                   onPressed: () {
-                    final InspectionController inspectionController =
-                        InspectionController();
-                    inspectionController.removeInspection(inspection);
+                    setState(() {
+                      removeInspection();
+                    });
                   }),
               IconButton(
                   icon: const Icon((Icons.file_upload)),
@@ -76,7 +93,7 @@ class InspectionTile extends StatelessWidget {
                       }
                     }
 
-                    return openFile(inspection.checklist);
+                    return openFile(widget.inspection.checklist);
                   })
             ])));
   }
