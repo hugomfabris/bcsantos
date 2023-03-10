@@ -31,6 +31,7 @@ class _MyHomePageState extends State<MyHomePage> {
   late InspectionController inspectionController;
   bool chipsVisibility = false;
   final box = Hive.box<Inspection>('inspectionBox');
+  String? selectedFilter = null;
 
   @override
   void initState() {
@@ -89,20 +90,25 @@ class _MyHomePageState extends State<MyHomePage> {
                       children: <Widget>[
                         Content(
                           child: ChipsChoice<String>.single(
-                            value: null,
-                            onChanged: (val) {
-                              var setFilter = inspectionController.setFilter(val);
-                              if (val == setFilter) {
+                            value: selectedFilter,
+                            onChanged: (val) => setState(() {
+                              if (val == selectedFilter) {
                                 //removing filter
-                                setFilter.notifier.state = null;
                                 inspectionController.clearFilters();
-                              } else {
+                                selectedFilter = null;
+                              } else if (val == null) {
                                 //adding filter
+                                selectedFilter = val;
                                 inspectionController.setFilter(val);
                               }
-                            },
+                              else {
+                                inspectionController.clearFilters();
+                                selectedFilter = val;
+                                inspectionController.setFilter(val);
+                              }
+                            }),
                             choiceItems: C2Choice.listFrom<String, String>(
-                              source: inspectionController.chipsNames.toList(),
+                              source: inspectionController.chipsNames,
                               value: (i, v) => v,
                               label: (i, v) => v,
                             ),
@@ -113,9 +119,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                 ),
                               ),
                             ),
-                            ),
-                            
                           ),
+                        ),
                       ],
                     )),
                 Expanded(
